@@ -43,17 +43,21 @@ SENSOR_DESCRIPTIONS = [
         native_unit_of_measurement=UnitOfPower.WATT,
         state_class=SensorStateClass.MEASUREMENT,
         device_class=SensorDeviceClass.POWER,
-    )
+    ),
+    SensorEntityDescription(
+        key="device_status",
+        name="Device Status",
+    ),
 ]
 
-async def async_setup_entry(hass: HomeAssistant, config_entry: IntergasXtendConfigEntry, async_add_entities: AddEntitiesCallback):
+async def async_setup_entry(hass: HomeAssistant, config_entry: IntergasXtendConfigEntry, add_entities: AddEntitiesCallback):
     coordinator = config_entry.runtime_data
     
     entities = []
     for description in SENSOR_DESCRIPTIONS:
         entities.append(IntergasXtendSensor(coordinator, description))
     
-    async_add_entities(entities)
+    add_entities(entities)
     
 class IntergasXtendSensor(CoordinatorEntity[IntergasXtendCoordinator], SensorEntity):
     def __init__(self, coordinator: IntergasXtendCoordinator, description: SensorEntityDescription) -> None:
@@ -69,4 +73,4 @@ class IntergasXtendSensor(CoordinatorEntity[IntergasXtendCoordinator], SensorEnt
 
     @property
     def native_value(self) -> StateType:
-        return self.coordinator.data.sensors[self.entity_description.key]
+        return self.coordinator.data.sensors.get(self.entity_description.key)

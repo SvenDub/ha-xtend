@@ -8,7 +8,7 @@ from custom_components.intergas_xtend.coordinator import IntergasXtendCoordinato
 
 _LOGGER = logging.getLogger(__name__)
 
-PLATFORMS: list[Platform] = [Platform.SENSOR]
+PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.BINARY_SENSOR]
 
 type IntergasXtendConfigEntry = ConfigEntry[IntergasXtendCoordinator]
 
