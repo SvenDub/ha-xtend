@@ -1,6 +1,4 @@
 ﻿{
   "name": "Intergas Xtend",
-  "zip_release": true,
-  "filename": "intergas_xtend.zip",
   "homeassistant": "2026.9.0"
 }
