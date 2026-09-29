@@ -1,0 +1,15 @@
+{
+  "domain": "intergas_xtend",
+  "name": "Intergas Xtend",
+  "version": "0.0.1",
+  "config_flow": true,
+  "documentation": "https://github.com/SvenDub/ha-xtend",
+  "issue_tracker": "https://github.com/SvenDub/ha-xtend/issues",
+  "requirements": [
+    "requests>=2.25.0",
+    "aiohttp>=3.8.0"
+  ],
+  "codeowners": ["@SvenDub"],
+  "iot_class": "local_polling",
+  "integration_type": "device"
+}

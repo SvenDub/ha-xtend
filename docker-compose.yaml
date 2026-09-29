@@ -1,0 +1,17 @@
+﻿services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - config:/config
+      - ./custom_components/intergas_xtend:/config/custom_components/intergas_xtend
+    restart: unless-stopped
+    stop_grace_period: 60s
+    privileged: true
+    ports:
+      - "8123:8123"
+    environment:
+      TZ: Europe/Amsterdam
+
+volumes:
+  config:
