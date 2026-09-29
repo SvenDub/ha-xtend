@@ -1,5 +1,5 @@
 ﻿from homeassistant.components.sensor import SensorEntityDescription, SensorStateClass, SensorEntity, SensorDeviceClass
-from homeassistant.const import UnitOfPower
+from homeassistant.const import UnitOfPower, UnitOfFrequency, UnitOfVolumeFlowRate, UnitOfTemperature, UnitOfEnergy
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -47,6 +47,102 @@ SENSOR_DESCRIPTIONS = [
     SensorEntityDescription(
         key="device_status",
         name="Device Status",
+    ),
+    SensorEntityDescription(
+        key="compressor_frequency",
+        name="Compressor Frequency",
+        native_unit_of_measurement=UnitOfFrequency.HERTZ,
+        state_class=SensorStateClass.MEASUREMENT,
+        device_class=SensorDeviceClass.FREQUENCY,
+    ),
+    SensorEntityDescription(
+        key="fan_speed",
+        name="Fan Speed",
+        native_unit_of_measurement="rpm",
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:fan",
+    ),
+    SensorEntityDescription(
+        key="water_flow",
+        name="Water Flow",
+        native_unit_of_measurement=UnitOfVolumeFlowRate.LITERS_PER_MINUTE,
+        state_class=SensorStateClass.MEASUREMENT,
+        device_class=SensorDeviceClass.VOLUME_FLOW_RATE,
+        suggested_display_precision=2,
+    ),
+    SensorEntityDescription(
+        key="water_return",
+        name="Water Return",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        device_class=SensorDeviceClass.TEMPERATURE,
+    ),
+    SensorEntityDescription(
+        key="water_supply",
+        name="Water Supply",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        device_class=SensorDeviceClass.TEMPERATURE,
+    ),
+    SensorEntityDescription(
+        key="water_setpoint",
+        name="Water Setpoint",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        device_class=SensorDeviceClass.TEMPERATURE,
+    ),
+    SensorEntityDescription(
+        key="temperature_outdoor",
+        name="Outdoor Temperature",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        device_class=SensorDeviceClass.TEMPERATURE,
+    ),
+    SensorEntityDescription(
+        key="temperature_room",
+        name="Room Temperature",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        device_class=SensorDeviceClass.TEMPERATURE,
+    ),
+    SensorEntityDescription(
+        key="temperature_setpoint_room",
+        name="Room Temperature Setpoint",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        device_class=SensorDeviceClass.TEMPERATURE,
+    ),
+    SensorEntityDescription(
+        key="energy_electrical_total",
+        name="Total Heat Pump Energy (Electrical)",
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        device_class=SensorDeviceClass.ENERGY,
+        suggested_display_precision=0,
+    ),
+    SensorEntityDescription(
+        key="energy_thermal_total",
+        name="Total Heat Pump Energy (Thermal)",
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        device_class=SensorDeviceClass.ENERGY,
+        suggested_display_precision=0,
+    ),
+    SensorEntityDescription(
+        key="energy_electrical_yesterday",
+        name="Yesterday Heat Pump Energy (Electrical)",
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        state_class=SensorStateClass.MEASUREMENT,
+        device_class=SensorDeviceClass.ENERGY,
+        suggested_display_precision=1,
+    ),
+    SensorEntityDescription(
+        key="energy_thermal_yesterday",
+        name="Yesterday Heat Pump Energy (Thermal)",
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        state_class=SensorStateClass.MEASUREMENT,
+        device_class=SensorDeviceClass.ENERGY,
+        suggested_display_precision=1,
     ),
 ]
 

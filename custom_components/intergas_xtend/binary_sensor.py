@@ -1,5 +1,4 @@
-﻿from homeassistant.components.binary_sensor import BinarySensorEntityDescription, BinarySensorDeviceClass, \
-    BinarySensorEntity
+﻿from homeassistant.components.binary_sensor import BinarySensorEntityDescription, BinarySensorEntity
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -10,18 +9,19 @@ from .const import DOMAIN, DEFAULT_NAME
 
 SENSOR_DESCRIPTIONS = [
     BinarySensorEntityDescription(
-        key="heat_demand_heat_pump", # 77c3, flag 32 + 2 + 1?
+        key="heat_demand_heat_pump",
         name="Heat Demand (Heat Pump)",
-        device_class=BinarySensorDeviceClass.HEAT,
+        icon="mdi:radiator",
     ),
     BinarySensorEntityDescription(
         key="heat_demand_boiler",
         name="Heat Demand (Boiler)",
-        device_class=BinarySensorDeviceClass.HEAT,
+        icon="mdi:radiator",
     ),
     BinarySensorEntityDescription(
         key="silent_mode",
         name="Silent Mode",
+        icon="mdi:volume-off",
     )
 ]
 
