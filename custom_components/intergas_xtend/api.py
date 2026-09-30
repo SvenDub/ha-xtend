@@ -3,6 +3,7 @@ from enum import IntFlag, IntEnum
 from typing import TypedDict, Any, Callable, NotRequired
 
 import httpx
+from tenacity import retry, stop_after_attempt, wait_random
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -119,16 +120,21 @@ class IntergasXtendAPI:
         self.url = url
         self.validate_https = validate_https
 
+    @retry(stop=stop_after_attempt(3), wait=wait_random(1, 2), reraise=True)
     async def get_device_info(self):
-        async with httpx.AsyncClient(verify=self.validate_https) as client:
+        async with self.create_client() as client:
             endpoint = self.url + "/api/stats/values?fields=47e0"
             response = await client.get(endpoint)
             response.raise_for_status()
             return response.json()
 
+    @retry(stop=stop_after_attempt(3), wait=wait_random(1, 2), reraise=True)
     async def get_state_data(self) -> IntergasXtendStateData:
-        async with httpx.AsyncClient(verify=self.validate_https) as client:
+        async with self.create_client() as client:
             endpoint = self.url + f"/api/stats/values?fields={",".join((value.get("key") for value in SENSORS_MAP.values()))}"
             response = await client.get(endpoint)
             response.raise_for_status()
             return IntergasXtendStateData(response.json())
+
+    def create_client(self) -> httpx.AsyncClient:
+        return httpx.AsyncClient(verify=self.validate_https)

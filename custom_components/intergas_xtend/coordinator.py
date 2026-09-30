@@ -16,7 +16,7 @@ class IntergasXtendCoordinator(DataUpdateCoordinator[IntergasXtendStateData]):
             hass,
             _LOGGER,
             name=DOMAIN,
-            update_interval=timedelta(seconds=10),
+            update_interval=timedelta(seconds=30),
             always_update=False,
         )
         self.api = IntergasXtendAPI(config_entry.data[CONF_URL], config_entry.data[CONF_VALIDATE_CERT])

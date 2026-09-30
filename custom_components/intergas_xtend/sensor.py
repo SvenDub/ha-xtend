@@ -36,6 +36,7 @@ SENSOR_DESCRIPTIONS = [
         key="cop",
         name="COP",
         state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:percent",
     ),
     SensorEntityDescription(
         key="power_electrical",
@@ -47,6 +48,7 @@ SENSOR_DESCRIPTIONS = [
     SensorEntityDescription(
         key="device_status",
         name="Device Status",
+        icon="mdi:heat-pump",
     ),
     SensorEntityDescription(
         key="compressor_frequency",
@@ -132,7 +134,6 @@ SENSOR_DESCRIPTIONS = [
         key="energy_electrical_yesterday",
         name="Yesterday Heat Pump Energy (Electrical)",
         native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
-        state_class=SensorStateClass.MEASUREMENT,
         device_class=SensorDeviceClass.ENERGY,
         suggested_display_precision=1,
     ),
@@ -140,7 +141,6 @@ SENSOR_DESCRIPTIONS = [
         key="energy_thermal_yesterday",
         name="Yesterday Heat Pump Energy (Thermal)",
         native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
-        state_class=SensorStateClass.MEASUREMENT,
         device_class=SensorDeviceClass.ENERGY,
         suggested_display_precision=1,
     ),
