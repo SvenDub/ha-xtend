@@ -1,0 +1,48 @@
+{
+  "entity": {
+    "sensor": {
+      "device_status": {
+        "state": {
+          "sensortest": "Sensor Test",
+          "commissioning": "Commissioning",
+          "crankheating": "Crankcase Heating",
+          "commissioning_waiting": "Waiting for Commissioning",
+          "service": "Service",
+          "heatpump_selftest": "Heat Pump Self-Test",
+          "dhw": "Domestic Hot Water",
+          "dhw_int": "Domestic Hot Water (Internal)",
+          "boiler_int": "Boiler (Internal)",
+          "boiler_ext": "Boiler (External)",
+          "postrun_boiler": "Post-Run Boiler",
+          "ch": "Central Heating",
+          "ch_wait": "Waiting for Central Heating",
+          "defrosting": "Defrosting",
+          "defrosting_wait": "Waiting for Defrosting",
+          "defrosting_wait_flow": "Defrosting Waiting for Flow",
+          "ch_blocked_by_sgready": "Central Heating Blocked by SG Ready",
+          "ch_wait_dhw_active": "Central Heating Waiting for DHW Active",
+          "ch_concrete_drying": "Central Heating Concrete Drying",
+          "opentherm": "OpenTherm",
+          "heatup": "Heat-Up",
+          "frost": "Frost Protection",
+          "starting_ch": "Starting Central Heating",
+          "postrun_ch": "Post-Run Central Heating",
+          "standby": "Standby",
+          "switched_off": "Switched Off",
+          "ch_rf": "Central Heating RF",
+          "dhw_hreco": "Domestic Hot Water HREco",
+          "dhw_legionella_prevention": "Domestic Hot Water Legionella Prevention",
+          "dhw_wait": "Waiting for Domestic Hot Water",
+          "starting_cooling": "Starting Cooling",
+          "cooling": "Cooling",
+          "cooling_wait": "Waiting for Cooling",
+          "cooling_blocked_by_sgready": "Cooling Blocked by SG Ready",
+          "cooling_waiting_for_flow": "Cooling Waiting for Flow",
+          "cooling_condense_protection": "Cooling Condensation Protection",
+          "cooling_floor_thermostat_off": "Cooling Floor Thermostat Off",
+          "postrun_cooling": "Post-Run Cooling"
+        }
+      }
+    }
+  }
+}

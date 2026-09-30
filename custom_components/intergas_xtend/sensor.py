@@ -47,6 +47,7 @@ SENSOR_DESCRIPTIONS = [
     ),
     SensorEntityDescription(
         key="device_status",
+        translation_key="device_status",
         name="Device Status",
         icon="mdi:heat-pump",
     ),
