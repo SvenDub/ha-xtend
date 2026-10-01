@@ -1,5 +1,6 @@
 ﻿from homeassistant.components.sensor import SensorEntityDescription, SensorStateClass, SensorEntity, SensorDeviceClass
-from homeassistant.const import UnitOfPower, UnitOfFrequency, UnitOfVolumeFlowRate, UnitOfTemperature, UnitOfEnergy
+from homeassistant.const import UnitOfPower, UnitOfFrequency, UnitOfVolumeFlowRate, UnitOfTemperature, UnitOfEnergy, \
+    EntityCategory
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -145,6 +146,11 @@ SENSOR_DESCRIPTIONS = [
         device_class=SensorDeviceClass.ENERGY,
         suggested_display_precision=1,
     ),
+    SensorEntityDescription(
+        key="sw_version",
+        name="Firmware Version",
+        entity_category=EntityCategory.DIAGNOSTIC,
+    )
 ]
 
 async def async_setup_entry(hass: HomeAssistant, config_entry: IntergasXtendConfigEntry, add_entities: AddEntitiesCallback):
@@ -166,6 +172,7 @@ class IntergasXtendSensor(CoordinatorEntity[IntergasXtendCoordinator], SensorEnt
             name=DEFAULT_NAME,
             manufacturer="Intergas",
             model="Xtend",
+            sw_version=coordinator.data.sensors.get("sw_version"),
         )
 
     @property

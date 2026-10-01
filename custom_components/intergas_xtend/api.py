@@ -102,6 +102,7 @@ SENSORS_MAP: dict[str, SensorMapping] = {
     "energy_thermal_total": {"key": "63f0"},
     "energy_electrical_yesterday": {"key": "5099", "mapper": lambda v: v / 10},
     "energy_thermal_yesterday": {"key": "50ae", "mapper": lambda v: v / 10},
+    "sw_version": {"key": "47e0"},
 }
 
 class IntergasXtendStateData:

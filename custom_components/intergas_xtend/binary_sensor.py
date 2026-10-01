@@ -44,6 +44,7 @@ class IntergasXtendBinarySensor(CoordinatorEntity[IntergasXtendCoordinator], Bin
             name=DEFAULT_NAME,
             manufacturer="Intergas",
             model="Xtend",
+            sw_version=coordinator.data.sensors.get("sw_version"),
         )
 
     @property
