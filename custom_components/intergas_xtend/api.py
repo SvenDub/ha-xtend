@@ -86,7 +86,7 @@ SENSORS_MAP: dict[str, SensorMapping] = {
     "power_boiler": {"key": "5088"},
     "power_electrical": {"key": "50f2"},
     "silent_mode": {"key": "77c3", "mapper": lambda v: DeviceFlags.SILENT_MODE_ACTIVE in DeviceFlags(v) if v is not None else None},
-    "device_status": {"key": "7e51", "mapper": lambda v: DeviceStatus(v).name.lower() if v is not None else None},
+    "device_status": {"key": "7e51", "mapper": lambda v: DeviceStatus(v) if v is not None else None},
     "heat_demand_heat_pump": {"key": "f9f2", "mapper": lambda v: ServiceFlags.HEATPUMP_REQUESTED in ServiceFlags(v) if v is not None else None},
     "heat_demand_boiler": {"key": "f9f2", "mapper": lambda v: ServiceFlags.BOILER_REQUESTED in ServiceFlags(v) if v is not None else None},
     "compressor_frequency": {"key": "65a7", "mapper": lambda v: v / 100},
