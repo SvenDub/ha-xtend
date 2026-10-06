@@ -3,7 +3,7 @@
 from homeassistant.components.climate import HVACMode, HVACAction
 from homeassistant.components.sensor import SensorEntityDescription, SensorStateClass, SensorEntity, SensorDeviceClass
 from homeassistant.const import UnitOfPower, UnitOfFrequency, UnitOfVolumeFlowRate, UnitOfTemperature, UnitOfEnergy, \
-    EntityCategory
+    EntityCategory, UnitOfRatio
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -213,7 +213,35 @@ SENSOR_DESCRIPTIONS: list[IntergasXtendSensorEntityDescription] = [
         key="sw_version",
         name="Firmware Version",
         entity_category=EntityCategory.DIAGNOSTIC,
-    )
+    ),
+    IntergasXtendSensorEntityDescription(
+        key="boiler_water_return",
+        name="Boiler Water Return",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        device_class=SensorDeviceClass.TEMPERATURE,
+    ),
+    IntergasXtendSensorEntityDescription(
+        key="boiler_water_supply",
+        name="Boiler Water Supply",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        device_class=SensorDeviceClass.TEMPERATURE,
+    ),
+    IntergasXtendSensorEntityDescription(
+        key="boiler_water_setpoint",
+        name="Boiler Water Setpoint",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        device_class=SensorDeviceClass.TEMPERATURE,
+    ),
+    IntergasXtendSensorEntityDescription(
+        key="boiler_modulation_level",
+        name="Boiler Modulation Level",
+        native_unit_of_measurement=UnitOfRatio.PERCENTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:percent",
+    ),
 ]
 
 
