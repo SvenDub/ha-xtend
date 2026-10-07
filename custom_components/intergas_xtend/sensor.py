@@ -242,6 +242,12 @@ SENSOR_DESCRIPTIONS: list[IntergasXtendSensorEntityDescription] = [
         state_class=SensorStateClass.MEASUREMENT,
         icon="mdi:percent",
     ),
+    IntergasXtendSensorEntityDescription(
+        key="boiler_oem_faultcode",
+        name="Boiler OEM Faultcode",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        icon="mdi:water-boiler-alert",
+    ),
 ]
 
 

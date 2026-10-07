@@ -107,6 +107,7 @@ SENSORS_MAP: dict[str, SensorMapping] = {
     "boiler_water_return": {"key": "7e81", "mapper": lambda v: v / 100},
     "boiler_water_setpoint": {"key": "7e31", "mapper": lambda v: v / 100 if v < 32767 else None},
     "boiler_modulation_level": {"key": "84d1", "mapper": lambda v: v / 100},
+    "boiler_oem_faultcode": {"key": "8439"},
 }
 
 class IntergasXtendStateData:
