@@ -11,7 +11,7 @@ from homeassistant.helpers.typing import StateType
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from . import IntergasXtendConfigEntry
-from .api import DeviceStatus
+from .api import DeviceStatus, BlockReason
 from .const import DOMAIN, DEFAULT_NAME
 from .coordinator import IntergasXtendCoordinator
 
@@ -36,14 +36,19 @@ def _compute_hvac_action(coordinator: IntergasXtendCoordinator) -> str | None:
         return HVACAction.PREHEATING
     if device_status == DeviceStatus.SWITCHED_OFF:
         return HVACAction.OFF
-    if device_status == DeviceStatus.STANDBY:
+    if device_status in (DeviceStatus.STANDBY, DeviceStatus.CH_WAIT):
         return HVACAction.IDLE
     return None
 
 
 def _compute_device_status(coordinator: IntergasXtendCoordinator) -> str | None:
     device_status = coordinator.data.sensors.get("device_status")
-    return device_status.name if device_status else None
+    return device_status.name if device_status is not None else None
+
+
+def _compute_block_reason(coordinator: IntergasXtendCoordinator) -> str | None:
+    block_reason = coordinator.data.sensors.get("block_reason")
+    return block_reason.name if block_reason is not None else None
 
 
 SENSOR_DESCRIPTIONS: list[IntergasXtendSensorEntityDescription] = [
@@ -113,6 +118,8 @@ SENSOR_DESCRIPTIONS: list[IntergasXtendSensorEntityDescription] = [
         translation_key="device_status",
         name="Device Status",
         icon="mdi:heat-pump",
+        device_class=SensorDeviceClass.ENUM,
+        options=[member.name for member in DeviceStatus],
         value_fn=_compute_device_status,
     ),
     IntergasXtendSensorEntityDescription(
@@ -247,6 +254,16 @@ SENSOR_DESCRIPTIONS: list[IntergasXtendSensorEntityDescription] = [
         name="Boiler OEM Faultcode",
         entity_category=EntityCategory.DIAGNOSTIC,
         icon="mdi:water-boiler-alert",
+    ),
+    IntergasXtendSensorEntityDescription(
+        key="block_reason",
+        translation_key="block_reason",
+        name="Block Reason",
+        device_class=SensorDeviceClass.ENUM,
+        options=[member.name for member in BlockReason],
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=_compute_block_reason,
+        icon="mdi:water-boiler-off",
     ),
 ]
 

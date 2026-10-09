@@ -57,6 +57,32 @@
           "off": "Off",
           "idle": "Idle"
         }
+      },
+      "block_reason": {
+        "state": {
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_ACTIVE_DEFROST_PROHIBITED": "Active Defrost Prohibited",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_BOILER_ONLY_OP": "Boiler Only Operation",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_CLOCK_PROGRAM": "Clock Program",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_COLD_START_OVERRIDE": "Cold Start Override (Water Temperature Too Low)",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_COP_LOW": "Low COP",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_DHW_BACKUP_ACTIVE": "Domestic Hot Water Backup Active",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_DM_CONTROL_STOP": "Low-Load Controlled Stop",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_HEATPUMP_FAULT": "Heat Pump Fault",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_HIGH_OUTDOORTEMP": "High Outdoor Temperature",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_HIGH_WATERTEMP": "Water Temperature Too High",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_LOCKOUT": "Lockout",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_LOW_OUTDOORTEMP": "Outdoor Temperature Too Low",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_LOW_WATERTEMP": "Low Water Temperature",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_NONE": "None",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_NO_DEMAND": "No Demand",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_NO_TOD_SENSOR": "No Outdoor Temperature Value",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_OUTSIDE_ODU_OPRANGE": "ODU Outside Operating Range",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_OVERTEMPERATURE": "Water Temperature Over Target",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_PASSIVE_DEFROST": "Passive Defrost in Progress",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_SENSOR_CAL": "Sensor Calibration in Progress",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_SGREADY": "Smart Grid Ready",
+          "BIVALENT_HEATPUMP_BLOCKED_REASON_UNKNOWN": "Unknown"
+        }
       }
     }
   }
