@@ -217,6 +217,12 @@ SENSOR_DESCRIPTIONS: list[IntergasXtendSensorEntityDescription] = [
         suggested_display_precision=1,
     ),
     IntergasXtendSensorEntityDescription(
+        key="cop_yesterday",
+        name="Yesterday COP",
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:percent",
+    ),
+    IntergasXtendSensorEntityDescription(
         key="sw_version",
         name="Firmware Version",
         entity_category=EntityCategory.DIAGNOSTIC,
