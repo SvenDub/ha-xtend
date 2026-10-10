@@ -36,7 +36,7 @@ def _compute_hvac_action(coordinator: IntergasXtendCoordinator) -> str | None:
         return HVACAction.PREHEATING
     if device_status == DeviceStatus.SWITCHED_OFF:
         return HVACAction.OFF
-    if device_status in (DeviceStatus.STANDBY, DeviceStatus.CH_WAIT):
+    if device_status in (DeviceStatus.STANDBY, DeviceStatus.CH_WAIT, DeviceStatus.SENSORTEST, DeviceStatus.POSTRUN_CH):
         return HVACAction.IDLE
     return None
 
