@@ -51,6 +51,18 @@ def _compute_block_reason(coordinator: IntergasXtendCoordinator) -> str | None:
     return block_reason.name if block_reason is not None else None
 
 
+def _compute_total_cop(coordinator: IntergasXtendCoordinator) -> float | None:
+    # Total COP is not known to be exposed from the API, calculate it from electrical and thermal energy, just like the
+    # Intergas Xtend web app does.
+    electrical_total = coordinator.data.sensors.get("energy_electrical_total")
+    thermal_total = coordinator.data.sensors.get("energy_thermal_total")
+    return (
+        thermal_total / electrical_total
+        if thermal_total is not None and electrical_total is not None
+        else None
+    )
+
+
 SENSOR_DESCRIPTIONS: list[IntergasXtendSensorEntityDescription] = [
     IntergasXtendSensorEntityDescription(
         key="hvac_mode",
@@ -201,6 +213,14 @@ SENSOR_DESCRIPTIONS: list[IntergasXtendSensorEntityDescription] = [
         state_class=SensorStateClass.TOTAL_INCREASING,
         device_class=SensorDeviceClass.ENERGY,
         suggested_display_precision=0,
+    ),
+    IntergasXtendSensorEntityDescription(
+        key="cop_total",
+        name="Total COP",
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:percent",
+        value_fn=_compute_total_cop,
+        suggested_display_precision=1,
     ),
     IntergasXtendSensorEntityDescription(
         key="energy_electrical_yesterday",
