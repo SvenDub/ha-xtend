@@ -3,7 +3,7 @@
 from homeassistant.components.climate import HVACMode, HVACAction
 from homeassistant.components.sensor import SensorEntityDescription, SensorStateClass, SensorEntity, SensorDeviceClass
 from homeassistant.const import UnitOfPower, UnitOfFrequency, UnitOfVolumeFlowRate, UnitOfTemperature, UnitOfEnergy, \
-    EntityCategory, UnitOfRatio
+    EntityCategory, UnitOfRatio, UnitOfVolume
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -13,11 +13,17 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from . import IntergasXtendConfigEntry
 from .api import DeviceStatus, BlockReason
 from .const import DOMAIN, DEFAULT_NAME
-from .coordinator import IntergasXtendCoordinator
+from .coordinator import IntergasXtendCoordinator, IntergasXtendStatisticsCoordinator
 
 
 class IntergasXtendSensorEntityDescription(SensorEntityDescription, frozen_or_thawed=True):
     value_fn: Callable[[IntergasXtendCoordinator], StateType] | None = None
+    data_key: str | None = None
+
+
+class IntergasXtendStatisticsSensorEntityDescription(SensorEntityDescription, frozen_or_thawed=True):
+    value_fn: Callable[[IntergasXtendStatisticsCoordinator], StateType] | None = None
+    data_key: str | None = None
 
 
 def _compute_hvac_mode(coordinator: IntergasXtendCoordinator) -> str | None:
@@ -51,14 +57,12 @@ def _compute_block_reason(coordinator: IntergasXtendCoordinator) -> str | None:
     return block_reason.name if block_reason is not None else None
 
 
-def _compute_total_cop(coordinator: IntergasXtendCoordinator) -> float | None:
-    # Total COP is not known to be exposed from the API, calculate it from electrical and thermal energy, just like the
-    # Intergas Xtend web app does.
-    electrical_total = coordinator.data.sensors.get("energy_electrical_total")
-    thermal_total = coordinator.data.sensors.get("energy_thermal_total")
+def _compute_total_cop(coordinator: IntergasXtendStatisticsCoordinator) -> float | None:
+    electrical_total = sum(year.get("data", {}).get("energyElectrical", {}).get("value", 0) for year in coordinator.data.years)
+    thermal_total = sum(year.get("data", {}).get("energyThermal", {}).get("value", 0) for year in coordinator.data.years)
     return (
         thermal_total / electrical_total
-        if thermal_total is not None and electrical_total is not None
+        if electrical_total > 0
         else None
     )
 
@@ -199,30 +203,6 @@ SENSOR_DESCRIPTIONS: list[IntergasXtendSensorEntityDescription] = [
         device_class=SensorDeviceClass.TEMPERATURE,
     ),
     IntergasXtendSensorEntityDescription(
-        key="energy_electrical_total",
-        name="Total Heat Pump Energy (Electrical)",
-        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
-        state_class=SensorStateClass.TOTAL_INCREASING,
-        device_class=SensorDeviceClass.ENERGY,
-        suggested_display_precision=0,
-    ),
-    IntergasXtendSensorEntityDescription(
-        key="energy_thermal_total",
-        name="Total Heat Pump Energy (Thermal)",
-        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
-        state_class=SensorStateClass.TOTAL_INCREASING,
-        device_class=SensorDeviceClass.ENERGY,
-        suggested_display_precision=0,
-    ),
-    IntergasXtendSensorEntityDescription(
-        key="cop_total",
-        name="Total COP",
-        state_class=SensorStateClass.MEASUREMENT,
-        icon="mdi:percent",
-        value_fn=_compute_total_cop,
-        suggested_display_precision=1,
-    ),
-    IntergasXtendSensorEntityDescription(
         key="energy_electrical_yesterday",
         name="Yesterday Heat Pump Energy (Electrical)",
         native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
@@ -293,14 +273,56 @@ SENSOR_DESCRIPTIONS: list[IntergasXtendSensorEntityDescription] = [
     ),
 ]
 
+STATISTICS_SENSOR_DESCRIPTIONS: list[IntergasXtendStatisticsSensorEntityDescription] = [
+    IntergasXtendStatisticsSensorEntityDescription(
+        key="energy_electrical_total",
+        name="Total Heat Pump Energy (Electrical)",
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        device_class=SensorDeviceClass.ENERGY,
+        data_key="energyElectrical",
+        suggested_display_precision=1,
+    ),
+    IntergasXtendStatisticsSensorEntityDescription(
+        key="energy_thermal_total",
+        name="Total Heat Pump Energy (Thermal)",
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        device_class=SensorDeviceClass.ENERGY,
+        data_key="energyThermal",
+        suggested_display_precision=1,
+    ),
+    IntergasXtendStatisticsSensorEntityDescription(
+        key="cop_total",
+        name="Total COP",
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:percent",
+        value_fn=_compute_total_cop,
+        suggested_display_precision=1,
+    ),
+    IntergasXtendStatisticsSensorEntityDescription(
+        key="gas_savings",
+        name="Gas Savings",
+        native_unit_of_measurement=UnitOfVolume.CUBIC_METERS,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        device_class=SensorDeviceClass.GAS,
+        icon="mdi:meter-gas",
+        data_key="gasSaving",
+        suggested_display_precision=1,
+    )
+]
+
 
 async def async_setup_entry(hass: HomeAssistant, config_entry: IntergasXtendConfigEntry,
                             add_entities: AddEntitiesCallback):
-    coordinator = config_entry.runtime_data
+    config_data = config_entry.runtime_data
 
     entities = []
     for description in SENSOR_DESCRIPTIONS:
-        entities.append(IntergasXtendSensor(coordinator, description))
+        entities.append(IntergasXtendSensor(config_data.data_coordinator, description))
+
+    for description in STATISTICS_SENSOR_DESCRIPTIONS:
+        entities.append(IntergasXtendStatisticsSensor(config_data.statistics_coordinator, description))
 
     add_entities(entities)
 
@@ -325,4 +347,24 @@ class IntergasXtendSensor(CoordinatorEntity[IntergasXtendCoordinator], SensorEnt
     def native_value(self) -> StateType:
         if self.entity_description.value_fn is not None:
             return self.entity_description.value_fn(self.coordinator)
-        return self.coordinator.data.sensors.get(self.entity_description.key)
+        return self.coordinator.data.sensors.get(
+            self.entity_description.data_key if self.entity_description.data_key else self.entity_description.key)
+
+
+class IntergasXtendStatisticsSensor(CoordinatorEntity[IntergasXtendStatisticsCoordinator], SensorEntity):
+    entity_description: IntergasXtendStatisticsSensorEntityDescription
+
+    def __init__(self, coordinator: IntergasXtendStatisticsCoordinator,
+                 description: IntergasXtendStatisticsSensorEntityDescription) -> None:
+        super().__init__(coordinator)
+        self.entity_description = description
+        self._attr_unique_id = f"{DOMAIN}_{description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, str(coordinator.config_entry.unique_id))},
+        )
+
+    @property
+    def native_value(self) -> StateType:
+        if self.entity_description.value_fn is not None:
+            return self.entity_description.value_fn(self.coordinator)
+        return sum(year.get("data", {}).get(self.entity_description.data_key, {}).get("value", 0) for year in self.coordinator.data.years) / 10.0

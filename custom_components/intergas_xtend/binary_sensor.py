@@ -26,11 +26,11 @@ SENSOR_DESCRIPTIONS = [
 ]
 
 async def async_setup_entry(hass: HomeAssistant, config_entry: IntergasXtendConfigEntry, add_entities: AddEntitiesCallback):
-    coordinator = config_entry.runtime_data
+    config_data = config_entry.runtime_data
 
     entities = []
     for description in SENSOR_DESCRIPTIONS:
-        entities.append(IntergasXtendBinarySensor(coordinator, description))
+        entities.append(IntergasXtendBinarySensor(config_data.data_coordinator, description))
 
     add_entities(entities)
 

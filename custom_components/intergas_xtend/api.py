@@ -143,12 +143,22 @@ class IntergasXtendStateData:
     def __init__(self, data: dict):
         self.data = data
         self.sensors = self.__map_sensors()
-        
+
     def __map_sensors(self):
         return {
             key: value.get("mapper", lambda v: v)(self.data.get("stats", {}).get(value["key"], None))
             for key, value in SENSORS_MAP.items()
         }
+
+
+class IntergasXtendStatistics:
+    def __init__(self, data: dict):
+        self.data = data
+
+    @property
+    def years(self) -> list[dict]:
+        return self.data.get("statistics", {}).get("years", [])
+
 
 class IntergasXtendAPI:
     def __init__(self, url: str, validate_https: bool):
@@ -170,6 +180,14 @@ class IntergasXtendAPI:
             response = await client.get(endpoint)
             response.raise_for_status()
             return IntergasXtendStateData(response.json())
+
+    @retry(stop=stop_after_attempt(3), wait=wait_random(1, 2), reraise=True)
+    async def get_heating_statistics(self) -> IntergasXtendStatistics:
+        async with self.create_client() as client:
+            endpoint = self.url + "/api/statistics/heating"
+            response = await client.get(endpoint)
+            response.raise_for_status()
+            return IntergasXtendStatistics(response.json())
 
     def create_client(self) -> httpx.AsyncClient:
         return httpx.AsyncClient(verify=self.validate_https)

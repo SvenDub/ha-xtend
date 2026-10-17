@@ -5,7 +5,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .api import IntergasXtendAPI, IntergasXtendStateData
+from .api import IntergasXtendAPI, IntergasXtendStateData, IntergasXtendStatistics
 from .const import CONF_URL, DOMAIN, CONF_VALIDATE_CERT
 
 _LOGGER = logging.getLogger(__name__)
@@ -24,5 +24,23 @@ class IntergasXtendCoordinator(DataUpdateCoordinator[IntergasXtendStateData]):
     async def _async_update_data(self):
         try:
             return await self.api.get_state_data()
+        except Exception as err:
+            raise UpdateFailed(f"Error fetching data: {err}") from err
+
+
+class IntergasXtendStatisticsCoordinator(DataUpdateCoordinator[IntergasXtendStatistics]):
+    def __init__(self, hass: HomeAssistant, config_entry: ConfigEntry):
+        super().__init__(
+            hass,
+            _LOGGER,
+            name=f"{DOMAIN}_statistics",
+            update_interval=timedelta(minutes=5),
+            always_update=False,
+        )
+        self.api = IntergasXtendAPI(config_entry.data[CONF_URL], config_entry.data[CONF_VALIDATE_CERT])
+
+    async def _async_update_data(self):
+        try:
+            return await self.api.get_heating_statistics()
         except Exception as err:
             raise UpdateFailed(f"Error fetching data: {err}") from err
