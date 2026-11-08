@@ -3,7 +3,7 @@
 from homeassistant.components.climate import HVACMode, HVACAction
 from homeassistant.components.sensor import SensorEntityDescription, SensorStateClass, SensorEntity, SensorDeviceClass
 from homeassistant.const import UnitOfPower, UnitOfFrequency, UnitOfVolumeFlowRate, UnitOfTemperature, UnitOfEnergy, \
-    EntityCategory, UnitOfRatio, UnitOfVolume
+    EntityCategory, UnitOfRatio, UnitOfVolume, UnitOfPressure
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -270,6 +270,95 @@ SENSOR_DESCRIPTIONS: list[IntergasXtendSensorEntityDescription] = [
         entity_category=EntityCategory.DIAGNOSTIC,
         value_fn=_compute_block_reason,
         icon="mdi:water-boiler-off",
+    ),
+    IntergasXtendSensorEntityDescription(
+        key="discharge_gas_pressure",
+        name="Discharge Gas Pressure",
+        native_unit_of_measurement=UnitOfPressure.BAR,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:gauge",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
+    ),
+    IntergasXtendSensorEntityDescription(
+        key="suction_pressure",
+        name="Suction Pressure",
+        native_unit_of_measurement=UnitOfPressure.BAR,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:gauge",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
+    ),
+    IntergasXtendSensorEntityDescription(
+        key="exhaust_gas_temperature",
+        name="Exhaust Gas Temperature",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:thermometer",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
+    ),
+    IntergasXtendSensorEntityDescription(
+        key="suction_line_gas_temperature",
+        name="Suction Line Gas Temperature",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:thermometer",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
+    ),
+    IntergasXtendSensorEntityDescription(
+        key="evaporator_temperature",
+        name="Evaporator Temperature",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:thermometer",
+        entity_category=EntityCategory.DIAGNOSTIC,
+    ),
+    IntergasXtendSensorEntityDescription(
+        key="condensor_gas_temperature",
+        name="Condensor Gas Temperature",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:thermometer",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
+    ),
+    IntergasXtendSensorEntityDescription(
+        key="condensor_liquid_temperature",
+        name="Condensor Liquid Temperature",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:thermometer",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
+    ),
+    IntergasXtendSensorEntityDescription(
+        key="suction_line_overheat",
+        name="Suction Line Overheat",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:thermometer",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
+    ),
+    IntergasXtendSensorEntityDescription(
+        key="discharge_overheat",
+        name="Discharge Overheat",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:thermometer",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
+    ),
+    IntergasXtendSensorEntityDescription(
+        key="subcooling",
+        name="Subcooling",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:thermometer",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
     ),
 ]
 

@@ -137,6 +137,16 @@ SENSORS_MAP: dict[str, SensorMapping] = {
     "boiler_modulation_level": {"key": "84d1", "mapper": lambda v: v / 100},
     "boiler_oem_faultcode": {"key": "8439"},
     "block_reason": {"key": "7fec", "mapper": lambda v: BlockReason(v)},
+    "discharge_gas_pressure": {"key": "65b0", "mapper": lambda v: v / 100},
+    "suction_pressure": {"key": "6579", "mapper": lambda v: v / 100},
+    "exhaust_gas_temperature": {"key": "65d9", "mapper": lambda v: v / 100},
+    "suction_line_gas_temperature": {"key": "6505", "mapper": lambda v: v / 100},
+    "evaporator_temperature": {"key": "65c1", "mapper": lambda v: v / 100},
+    "condensor_gas_temperature": {"key": "6c26", "mapper": lambda v: v / 100},
+    "condensor_liquid_temperature": {"key": "6ceb", "mapper": lambda v: v / 100},
+    "suction_line_overheat": {"key": "6cfb", "mapper": lambda v: v / 100},
+    "discharge_overheat": {"key": "6c33", "mapper": lambda v: v / 100},
+    "subcooling": {"key": "6c53", "mapper": lambda v: v / 100},
 }
 
 class IntergasXtendStateData:

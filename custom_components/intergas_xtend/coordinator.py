@@ -34,7 +34,7 @@ class IntergasXtendStatisticsCoordinator(DataUpdateCoordinator[IntergasXtendStat
             hass,
             _LOGGER,
             name=f"{DOMAIN}_statistics",
-            update_interval=timedelta(minutes=5),
+            update_interval=timedelta(hours=1),
             always_update=False,
         )
         self.api = IntergasXtendAPI(config_entry.data[CONF_URL], config_entry.data[CONF_VALIDATE_CERT])
