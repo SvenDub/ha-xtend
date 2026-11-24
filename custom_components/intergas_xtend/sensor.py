@@ -360,6 +360,13 @@ SENSOR_DESCRIPTIONS: list[IntergasXtendSensorEntityDescription] = [
         entity_category=EntityCategory.DIAGNOSTIC,
         entity_registry_enabled_default=False,
     ),
+    IntergasXtendSensorEntityDescription(
+        key="energy_boiler_yesterday",
+        name="Yesterday Boiler Energy",
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        device_class=SensorDeviceClass.ENERGY,
+        suggested_display_precision=1,
+    ),
 ]
 
 STATISTICS_SENSOR_DESCRIPTIONS: list[IntergasXtendStatisticsSensorEntityDescription] = [
