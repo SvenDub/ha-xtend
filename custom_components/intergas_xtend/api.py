@@ -148,6 +148,20 @@ SENSORS_MAP: dict[str, SensorMapping] = {
     "suction_line_overheat": {"key": "6cfb", "mapper": lambda v: v / 100},
     "discharge_overheat": {"key": "6c33", "mapper": lambda v: v / 100},
     "subcooling": {"key": "6c53", "mapper": lambda v: v / 100},
+    "compressor_starts": {"key": "6a8e"},
+    "runtime": {"key": "6ac5"},
+    "hours_on_power": {"key": "71a7"},
+    "power_cycles": {"key": "7160"},
+    "defrost_cycles": {"key": "6a53"},
+    "ch_water_pump_hours": {"key": "4e13"},
+    "crank_heater_hours": {"key": "4eeb"},
+    "base_pan_heater_hours": {"key": "4e3a"},
+    "ch_water_pump_starts": {"key": "4a22"},
+    "crank_heater_starts": {"key": "4a3c"},
+    "base_pan_heater_starts": {"key": "4aeb"},
+    "boiler_ch_runtime": {"key": "8ef9"},
+    "boiler_dhw_runtime": {"key": "8e37"},
+    "boiler_flame_loss": {"key": "8e18"},
 }
 
 class IntergasXtendStateData:
